@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export const DashboardIndex = () => {
+const DashboardIndex = () => {
   return (
     <>
       <Head>
@@ -15,3 +15,5 @@ export const DashboardIndex = () => {
     </>
   );
 };
+
+export default DashboardIndex;
