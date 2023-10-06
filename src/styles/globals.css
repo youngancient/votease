@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Public+Sans:wght@400;500;600;700;800&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Public Sans', sans-serif;
+    color: #fff;
+}
+
+a{
+    text-decoration : none;
+    background-size: cover;
+}
+body{
+  background: #140D27;
+}
+button{
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+input{
+    border: none;
+    outline: none;
+}
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+img{
+  object-fit: cover;
+}
