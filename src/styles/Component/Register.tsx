@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const RegisterpageStyles = styled.div`
-  border: 2px solid red;
   display: flex;
   align-items: center;
   .second {
@@ -146,7 +145,6 @@ export const PageLinkStyle = styled.p`
 `;
 
 export const LoginPageStyles = styled(RegisterpageStyles)`
-  border: 2px solid yellow;
   flex-direction: row-reverse;
   gap: 0;
   .second {
