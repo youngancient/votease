@@ -177,7 +177,6 @@ export const HidePwdStyles = styled.div`
 `;
 
 export const CheckEmailStyles = styled.div`
-  border: 2px solid red;
   position: fixed;
   z-index: 5;
   background: rgba(21, 14, 40, 0.93);
