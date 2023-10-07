@@ -1,11 +1,40 @@
+import { CheckEmailModal } from "@/components/auth/Register";
+import { ButtonLoader } from "@/styles/Component/Login";
 import { PageLinkStyle, RegisterpageStyles } from "@/styles/Component/Register";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
+interface ISignUpForm {
+  vin: string;
+}
 const Register = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [sentMail, setSentMail] = useState(false);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUpForm>({
+    mode: "onBlur",
+    defaultValues: {
+      vin: "",
+    },
+  });
+  const controlSubmit = (data: ISignUpForm) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      reset();
+      setSentMail(true);
+    }, 2000);
+    console.log(data);
+  };
   return (
     <>
       <Head>
@@ -29,18 +58,36 @@ const Register = () => {
               <h1>Register</h1>
               <p>Type in VIN for PVC confirmation</p>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(controlSubmit)}>
               <div className="form-ele">
                 <label htmlFor="vin" className="label">
                   Voters Identification Number
                 </label>
                 <div className="input">
-                  <input type="number" name="vin" id="" placeholder="VIN" />
-                  {/* <div className="error">VIN is required</div> */}
+                  <input
+                    type="text"
+                    {...register("vin", {
+                      required: "VIN is required",
+                      pattern: /^[a-zA-Z0-9]+$/i,
+                      minLength: 17,
+                    })}
+                    id=""
+                    placeholder="VIN"
+                  />
+                  {errors?.vin && errors.vin.type === "required" && (
+                    <div className="error">{errors.vin.message}</div>
+                  )}
+
+                  {errors?.vin && errors?.vin.type === "minLength" && (
+                    <div className="error">min length is 17</div>
+                  )}
+                  {errors?.vin && errors?.vin.type === "pattern" && (
+                    <div className="error">Only letters and numbers are allowed.</div>
+                  )}
                 </div>
               </div>
               <div className="btn">
-                <button type="submit">Confirm</button>
+                <button type="submit">{isLoading ? <ButtonLoader /> : "Confirm"}</button>
               </div>
               <PageLinkStyle>
                 Already registered?{" "}
@@ -51,6 +98,7 @@ const Register = () => {
             </form>
           </div>
         </RegisterpageStyles>
+        {sentMail && <CheckEmailModal />}
       </main>
     </>
   );

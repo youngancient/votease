@@ -10,7 +10,7 @@ const DashboardIndex = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Welcome to VoteEase</h1>
+        <h1>Welcome to VoteEase Dashboard</h1>
       </main>
     </>
   );

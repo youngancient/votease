@@ -151,12 +151,12 @@ export const LoginPageStyles = styled(RegisterpageStyles)`
     display: flex;
     align-items: center;
   }
-  .xxx{
+  .xxx {
     display: flex;
     flex-direction: column;
     gap: 3rem;
   }
-  .input{
+  .input {
     position: relative;
   }
   @media (max-width: 998px) {
@@ -174,4 +174,46 @@ export const HidePwdStyles = styled.div`
   svg {
     scale: 0.75;
   }
-`
+`;
+
+export const CheckEmailStyles = styled.div`
+  border: 2px solid red;
+  position: fixed;
+  z-index: 5;
+  background: rgba(21, 14, 40, 0.93);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .inner {
+    border-radius: 5px;
+    border: 1px solid #d434fe;
+    background: rgba(255, 255, 255, 0.01);
+    padding: 2rem;
+    .btn{
+      button{
+        width: 100%;
+      }
+      margin-top: 2rem;
+    }
+  }
+  @media (max-width: 500px){
+    padding: 1rem;
+    .inner {
+      padding: 1rem;
+      padding-bottom: 2rem;
+    }
+  }
+  @media (min-width: 998px) {
+    .inner{
+      width: 40%;
+      padding: 2rem;
+      padding-bottom: 4rem;
+    }
+  }
+`;

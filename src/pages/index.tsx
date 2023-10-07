@@ -17,7 +17,7 @@ export default function Home() {
         <MainPageStyles>
           <div className="flag">
             <Image
-              src="/assets/voting.svg"
+              src="/assets/voting2.svg"
               width={608}
               height={672}
               alt="nigerian flag"
