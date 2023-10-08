@@ -39,7 +39,7 @@ const Login = () => {
     setTimeout(() => {
       setIsLoading(false);
       reset();
-      router.push("/dashboard");
+      router.push("/dashboard/elections");
     }, 2000);
     console.log(data);
   };

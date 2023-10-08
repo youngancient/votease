@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const RegisterpageStyles = styled.div`
   display: flex;
@@ -132,7 +132,10 @@ export const RegisterpageStyles = styled.div`
   }
 `;
 
-export const PageLinkStyle = styled.p`
+interface IPageLink {
+  $isSelected ?: boolean;
+}
+export const PageLinkStyle = styled.p<IPageLink>`
   color: #fff;
   font-size: 0.875rem;
   font-style: normal;
@@ -142,6 +145,11 @@ export const PageLinkStyle = styled.p`
     color: #d434fe;
     text-decoration: underline;
   }
+  ${(props) =>
+    props.$isSelected &&
+    css`
+      color: #d434fe;
+    `}
 `;
 
 export const LoginPageStyles = styled(RegisterpageStyles)`
@@ -194,14 +202,14 @@ export const CheckEmailStyles = styled.div`
     border: 1px solid #d434fe;
     background: rgba(255, 255, 255, 0.01);
     padding: 2rem;
-    .btn{
-      button{
+    .btn {
+      button {
         width: 100%;
       }
       margin-top: 2rem;
     }
   }
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     padding: 1rem;
     .inner {
       padding: 1rem;
@@ -209,7 +217,7 @@ export const CheckEmailStyles = styled.div`
     }
   }
   @media (min-width: 998px) {
-    .inner{
+    .inner {
       width: 40%;
       padding: 2rem;
       padding-bottom: 4rem;
