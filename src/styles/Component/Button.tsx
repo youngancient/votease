@@ -6,7 +6,7 @@ export const NormalButton = styled.button`
   height: 50px;
   width: 200px;
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

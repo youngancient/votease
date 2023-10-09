@@ -1,6 +1,20 @@
+import { ComingSoon } from "@/components/Comingsoon/Soon";
+import { useAppSelector } from "@/redux/hooks/hooks";
+import { userSelector } from "@/redux/userSlice";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import {useEffect} from "react";
+
 
 const Candidates = () => {
+  const { user } = useAppSelector(userSelector);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === null) {
+      router.push("/auth/login");
+    }
+  }, [router,user]);
   return (
     <>
       <Head>
@@ -10,7 +24,7 @@ const Candidates = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>View Candidates here</h1>
+        <ComingSoon />
       </main>
     </>
   );

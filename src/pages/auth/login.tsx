@@ -7,6 +7,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { AnimateHeroImg, textVariant } from "@/animations/animation";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { setUser } from "@/redux/userSlice";
 
 // Tasks
 // Use React hook form to finish login
@@ -34,11 +38,14 @@ const Login = () => {
       pwd: "",
     },
   });
+  const dispatch = useAppDispatch();
   const handleLogin = (data: ISignInForm) => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       reset();
+      // log user in
+      dispatch(setUser(data));
       router.push("/dashboard/elections");
     }, 2000);
     console.log(data);
@@ -53,22 +60,44 @@ const Login = () => {
       </Head>
       <main>
         <LoginPageStyles>
-          <div className="img">
+          <motion.div
+            className="img"
+            variants={AnimateHeroImg}
+            initial="initial2"
+            whileInView="final"
+          >
             <Image
               src="/assets/login.svg"
               width={608}
               height={672}
               alt="nigerian flag"
             />
-          </div>
+          </motion.div>
           <div className="second">
             <div className="xxx">
               <div className="text">
-                <h1>Login</h1>
-                <p>Type in VIN for PVC confirmation</p>
+                <motion.h1
+                  variants={textVariant}
+                  initial="initial"
+                  whileInView="final"
+                >
+                  Login
+                </motion.h1>
+                <motion.p
+                  variants={textVariant}
+                  initial="initial"
+                  whileInView="final2"
+                >
+                  Type in VIN for PVC confirmation
+                </motion.p>
               </div>
               <form onSubmit={handleSubmit(handleLogin)}>
-                <div className="form-ele">
+                <motion.div
+                  className="form-ele"
+                  variants={textVariant}
+                  initial="initial"
+                  whileInView="final2"
+                >
                   <label htmlFor="vin" className="label">
                     Voters Identification Number
                   </label>
@@ -79,6 +108,7 @@ const Login = () => {
                         required: "VIN is required",
                         pattern: /^[a-zA-Z0-9]+$/i,
                         minLength: 17,
+                        maxLength: 17,
                       })}
                       id=""
                       placeholder="VIN"
@@ -86,9 +116,11 @@ const Login = () => {
                     {errors?.vin && errors.vin.type === "required" && (
                       <div className="error">{errors.vin.message}</div>
                     )}
-
                     {errors?.vin && errors?.vin.type === "minLength" && (
-                      <div className="error">min length is 17</div>
+                      <div className="error">VIN must be 17 chars</div>
+                    )}
+                    {errors?.vin && errors?.vin.type === "maxLength" && (
+                      <div className="error">VIN must be 17 chars</div>
                     )}
                     {errors?.vin && errors?.vin.type === "pattern" && (
                       <div className="error">
@@ -96,8 +128,13 @@ const Login = () => {
                       </div>
                     )}
                   </div>
-                </div>
-                <div className="form-ele">
+                </motion.div>
+                <motion.div
+                  className="form-ele"
+                  variants={textVariant}
+                  initial="initial"
+                  whileInView="final2"
+                >
                   <label htmlFor="pwd" className="label">
                     Password
                   </label>
@@ -116,15 +153,20 @@ const Login = () => {
                       <div className="error">Password is required</div>
                     )}
                   </div>
-                </div>
-                <div className="btn">
+                </motion.div>
+                <motion.div
+                  className="btn"
+                  variants={textVariant}
+                  initial="initial"
+                  whileInView="final3"
+                >
                   <button type="submit">
                     {isLoading ? <ButtonLoader /> : "Login"}
                   </button>
-                </div>
+                </motion.div>
                 <PageLinkStyle>
                   Not registered?{" "}
-                  <Link href="/auth/register">
+                  <Link href="/auth">
                     <strong>Register</strong>
                   </Link>
                 </PageLinkStyle>

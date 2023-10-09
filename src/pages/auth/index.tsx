@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { AnimateHeroImg, textVariant } from "@/animations/animation";
 
 interface ISignUpForm {
   vin: string;
@@ -38,28 +40,50 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>SignUp</title>
         <meta name="description" content="Votease app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <RegisterpageStyles>
-          <div className="img">
+          <motion.div
+            className="img"
+            variants={AnimateHeroImg}
+            initial="initial"
+            whileInView="final"
+          >
             <Image
               src="/assets/register1.svg"
               width={608}
               height={672}
               alt="nigerian flag"
             />
-          </div>
+          </motion.div>
           <div className="second">
             <div className="text">
-              <h1>Register</h1>
-              <p>Type in VIN for PVC confirmation</p>
+              <motion.h1
+                variants={textVariant}
+                initial="initial"
+                whileInView="final"
+              >
+                Register
+              </motion.h1>
+              <motion.p
+                variants={textVariant}
+                initial="initial"
+                whileInView="final2"
+              >
+                Type in VIN for PVC confirmation
+              </motion.p>
             </div>
             <form onSubmit={handleSubmit(controlSubmit)}>
-              <div className="form-ele">
+              <motion.div
+                className="form-ele"
+                variants={textVariant}
+                initial="initial"
+                whileInView="final2"
+              >
                 <label htmlFor="vin" className="label">
                   Voters Identification Number
                 </label>
@@ -70,6 +94,7 @@ const Register = () => {
                       required: "VIN is required",
                       pattern: /^[a-zA-Z0-9]+$/i,
                       minLength: 17,
+                      maxLength : 17,
                     })}
                     id=""
                     placeholder="VIN"
@@ -79,16 +104,28 @@ const Register = () => {
                   )}
 
                   {errors?.vin && errors?.vin.type === "minLength" && (
-                    <div className="error">min length is 17</div>
+                    <div className="error">VIN must be 17 chars</div>
+                  )}
+                  {errors?.vin && errors?.vin.type === "maxLength" && (
+                    <div className="error">VIN must be 17 chars</div>
                   )}
                   {errors?.vin && errors?.vin.type === "pattern" && (
-                    <div className="error">Only letters and numbers are allowed.</div>
+                    <div className="error">
+                      Only letters and numbers are allowed.
+                    </div>
                   )}
                 </div>
-              </div>
-              <div className="btn">
-                <button type="submit">{isLoading ? <ButtonLoader /> : "Confirm"}</button>
-              </div>
+              </motion.div>
+              <motion.div
+                className="btn"
+                variants={textVariant}
+                initial="initial"
+                whileInView="final3"
+              >
+                <button type="submit">
+                  {isLoading ? <ButtonLoader /> : "Confirm"}
+                </button>
+              </motion.div>
               <PageLinkStyle>
                 Already registered?{" "}
                 <Link href="/auth/login">
