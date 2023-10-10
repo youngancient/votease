@@ -1,4 +1,6 @@
 import { SlideinAnimation } from "@/animations/animation";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { removeUser } from "@/redux/userSlice";
 import { NormalButton } from "@/styles/Component/Button";
 import { ForX, HeaderStyles, LogoStyles, MobileSlideIn } from "@/styles/Component/Header";
 import { PageLinkStyle } from "@/styles/Component/Register";
@@ -28,6 +30,11 @@ export const Header = () => {
     setLinks(newLinks);
     setShowMobilenav(false);
   };
+  const dispatch = useAppDispatch();
+  const logout =()=>{
+    router.push("/");
+    dispatch(removeUser());
+  }
   return (
     <HeaderStyles>
       <div className="logo">
@@ -48,7 +55,7 @@ export const Header = () => {
           ))}
         </div>
         <div className="btn">
-            <NormalButton onClick={() => router.push("/")}>Logout</NormalButton>
+            <NormalButton onClick={logout}>Logout</NormalButton>
         </div>
       </div>
       <div className="tiles">

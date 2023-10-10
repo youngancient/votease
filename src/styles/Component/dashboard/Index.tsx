@@ -248,3 +248,13 @@ export const TACStyles = styled(motion.div).attrs(()=>({
     }
   }
 `;
+
+
+export const HasVotedStyles = styled.div`
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2.5rem;
+`

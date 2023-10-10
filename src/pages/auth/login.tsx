@@ -17,6 +17,9 @@ import { setUser } from "@/redux/userSlice";
 // write a next endpoint to send mail to client
 // setup redux
 
+// Add logout to redux
+// complete the function that controls the "finish voting" action
+
 interface ISignInForm {
   vin: string;
   pwd: string;
@@ -45,7 +48,7 @@ const Login = () => {
       setIsLoading(false);
       reset();
       // log user in
-      dispatch(setUser(data));
+      dispatch(setUser({...data, hasVotedPresident : false}));
       router.push("/dashboard/elections");
     }, 2000);
     console.log(data);

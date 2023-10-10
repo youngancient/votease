@@ -4,9 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { textVariant } from "@/animations/animation";
+import { useAppSelector } from "@/redux/hooks/hooks";
+import { userSelector } from "@/redux/userSlice";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const { user } = useAppSelector(userSelector);
+  
   return (
     <>
       <Head>

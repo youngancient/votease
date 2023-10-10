@@ -30,6 +30,7 @@ const DashboardIndex = () => {
     if (user === null) {
       router.push("/auth/login");
     }
+    console.log(user);
   }, [router,user]);
 
   return (

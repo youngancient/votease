@@ -16,20 +16,22 @@ import { PageLinkStyle } from "@/styles/Component/Register";
 import { NormalButton } from "@/styles/Component/Button";
 import { textVariant } from "@/animations/animation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAppSelector } from "@/redux/hooks/hooks";
-import { userSelector } from "@/redux/userSlice";
-import {useEffect} from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { setUser, userSelector } from "@/redux/userSlice";
+import { useEffect } from "react";
+import { ButtonLoader } from "@/styles/Component/Login";
+import { HasVoted } from "@/components/Dashboard/hasvote";
 
 
 const Election = () => {
   const { user } = useAppSelector(userSelector);
   const router = useRouter();
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (user === null) {
       router.push("/auth/login");
     }
-  }, [router,user]);
+  }, [router, user]);
 
   const id = router.query.id as string;
   const electionType = Elections.find((ele) => ele.id === id)?.title;
@@ -48,6 +50,16 @@ const Election = () => {
       setShowTAC(true);
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
+  const setVote = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      // set vote
+      dispatch(setUser({ ...user, hasVotedPresident: true }));
+      setShowTAC(false);
+    }, 1500);
+  };
   return (
     <>
       <Head>
@@ -57,102 +69,133 @@ const Election = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <VotingBoothStyle>
-          <h1>{electionType} Booth</h1>
-          {id === "pres" ? (
-            <div className="ballot">
-              <p>Pick your choicest!</p>
-              <div className="list">
-                {candidates.map((ele, index) => (
-                  <PartyCandidate key={index} $isSelected={ele.isSelected}>
-                    <div
-                      className="img"
-                      onClick={() => handleCandidateSelection(ele.name)}
-                    >
-                      <p className="party">{ele.party}</p>
-                      <Image
-                        width={180}
-                        height={200}
-                        src={ele.picture}
-                        alt={ele.name}
-                      />
-                    </div>
-                    <div className="below">
-                      <Link href="/dashboard/candidates">
-                        <p className="name">{ele.name}</p>
-                      </Link>
+        {user?.hasVotedPresident === false ? (
+          <VotingBoothStyle>
+            <h1>{electionType} Booth</h1>
+            {id === "pres" ? (
+              <div className="ballot">
+                <p>Pick your choicest!</p>
+                <div className="list">
+                  {candidates.map((ele, index) => (
+                    <PartyCandidate key={index} $isSelected={ele.isSelected}>
                       <div
-                        className="xx"
+                        className="img"
                         onClick={() => handleCandidateSelection(ele.name)}
                       >
-                        <div className="party-logo">
-                          <Image
-                            width={50}
-                            height={50}
-                            src={ele.partyLogo}
-                            alt={ele.party}
-                          />
-                        </div>
-                        <div className="radio">
-                          <Radio
-                            isSelected={ele.isSelected}
-                            handleSelect={() =>
-                              handleCandidateSelection(ele.name)
-                            }
-                          />
+                        <p className="party">{ele.party}</p>
+                        <Image
+                          width={180}
+                          height={200}
+                          src={ele.picture}
+                          alt={ele.name}
+                        />
+                      </div>
+                      <div className="below">
+                        <Link href="/dashboard/candidates">
+                          <p className="name">{ele.name}</p>
+                        </Link>
+                        <div
+                          className="xx"
+                          onClick={() => handleCandidateSelection(ele.name)}
+                        >
+                          <div className="party-logo">
+                            <Image
+                              width={50}
+                              height={50}
+                              src={ele.partyLogo}
+                              alt={ele.party}
+                            />
+                          </div>
+                          <div className="radio">
+                            <Radio
+                              isSelected={ele.isSelected}
+                              handleSelect={() =>
+                                handleCandidateSelection(ele.name)
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </PartyCandidate>
-                ))}
-              </div>
-              <div className="btn">
-                <NormalButton onClick={handleTAC}>Cast Vote</NormalButton>
-              </div>
-            </div>
-          ) : (
-            <ComingSoon />
-          )}
-        </VotingBoothStyle>
-        <AnimatePresence>
-        {showTAC && (
-          <TACStyles key= "hinokami">
-            <motion.div className="inner"
-            variants={textVariant}
-            initial="initial"
-            whileInView="final"
-            key= "kagura"
-            exit = "exit"
-            >
-              <div className="tac">
-                <p>
-                  You, As a member of Mainland Local Government under
-                  Lagos Central Senatorial District,Lagos State, Nigeria is
-                  allowed to vote. Please adhere to the rules and regulation
-                  stated below in order to cast a valid vote. You are requested
-                  to cast vote on your decision without any form of threat or
-                  pressure. for further complaint, please call our emergency
-                  number or you can swiftly reach us on: info@voteease.com.
-                </p>
-                <div className="sec">
-                  <h4>Note:</h4>
-                  <ul className="notelist">
-                    <li>Do not share your personal security code with anybody. </li>
-                    <li> You are allowed to make only one vote per election</li>
-                    <li>You are to cast your vote before the election period/time elapsed.</li>
-                    <li>Candidate information are available on the candidates page</li>
-                    <li>Election results will be announced 12 hours after the completion of voting process.</li>
-                    <li> After selecting the candidate click the Finish button to submit your vote</li>
-                  </ul>
+                    </PartyCandidate>
+                  ))}
+                </div>
+                <div className="btn">
+                  <NormalButton onClick={handleTAC}>Cast Vote</NormalButton>
                 </div>
               </div>
-              <div className="buttons">
-                <button type="button" className="cancel" onClick={()=> setShowTAC(false)}>Cancel</button>
-                <button type="button">Finish</button>
-              </div>
-            </motion.div>
-          </TACStyles>
+            ) : (
+              <ComingSoon />
+            )}
+          </VotingBoothStyle>
+        ) : (
+          <HasVoted />
         )}
+        <AnimatePresence>
+          {showTAC && (
+            <TACStyles key="hinokami">
+              <motion.div
+                className="inner"
+                variants={textVariant}
+                initial="initial"
+                whileInView="final"
+                key="kagura"
+                exit="exit"
+              >
+                <div className="tac">
+                  <p>
+                    You, As a member of Mainland Local Government under Lagos
+                    Central Senatorial District,Lagos State, Nigeria is allowed
+                    to vote. Please adhere to the rules and regulation stated
+                    below in order to cast a valid vote. You are requested to
+                    cast vote on your decision without any form of threat or
+                    pressure. for further complaint, please call our emergency
+                    number or you can swiftly reach us on: info@voteease.com.
+                  </p>
+                  <div className="sec">
+                    <h4>Note:</h4>
+                    <ul className="notelist">
+                      <li>
+                        Do not share your personal security code with anybody.{" "}
+                      </li>
+                      <li>
+                        {" "}
+                        You are allowed to make only one vote per election
+                      </li>
+                      <li>
+                        You are to cast your vote before the election
+                        period/time elapsed.
+                      </li>
+                      <li>
+                        Candidate information are available on the candidates
+                        page
+                      </li>
+                      <li>
+                        Election results will be announced 12 hours after the
+                        completion of voting process.
+                      </li>
+                      <li>
+                        {" "}
+                        After selecting the candidate click the Finish button to
+                        submit your vote
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="buttons">
+                  <button
+                    type="button"
+                    className="cancel"
+                    onClick={() => setShowTAC(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="button" onClick={setVote}>
+                  {isLoading ? <ButtonLoader /> : "Finish"}
+                  </button>
+                </div>
+              </motion.div>
+            </TACStyles>
+          )}
         </AnimatePresence>
       </main>
     </>
