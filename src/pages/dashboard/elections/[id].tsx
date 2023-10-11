@@ -22,7 +22,6 @@ import { useEffect } from "react";
 import { ButtonLoader } from "@/styles/Component/Login";
 import { HasVoted } from "@/components/Dashboard/hasvote";
 
-
 const Election = () => {
   const { user } = useAppSelector(userSelector);
   const router = useRouter();
@@ -69,10 +68,10 @@ const Election = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {user?.hasVotedPresident === false ? (
-          <VotingBoothStyle>
-            <h1>{electionType} Booth</h1>
-            {id === "pres" ? (
+        <VotingBoothStyle>
+          {id === "pres" && user?.hasVotedPresident === false && (
+            <>
+              <h1>{electionType} Booth</h1>
               <div className="ballot">
                 <p>Pick your choicest!</p>
                 <div className="list">
@@ -123,13 +122,16 @@ const Election = () => {
                   <NormalButton onClick={handleTAC}>Cast Vote</NormalButton>
                 </div>
               </div>
-            ) : (
+            </>
+          )}
+          {id === "pres" && user?.hasVotedPresident === true && <HasVoted />}
+          {id !== "pres" && (
+            <>
+              <h1>{electionType} Booth</h1>
               <ComingSoon />
-            )}
-          </VotingBoothStyle>
-        ) : (
-          <HasVoted />
-        )}
+            </>
+          )}
+        </VotingBoothStyle>
         <AnimatePresence>
           {showTAC && (
             <TACStyles key="hinokami">
@@ -190,7 +192,7 @@ const Election = () => {
                     Cancel
                   </button>
                   <button type="button" onClick={setVote}>
-                  {isLoading ? <ButtonLoader /> : "Finish"}
+                    {isLoading ? <ButtonLoader /> : "Finish"}
                   </button>
                 </div>
               </motion.div>
